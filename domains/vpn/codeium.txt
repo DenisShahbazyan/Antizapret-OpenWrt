@@ -1,0 +1,3 @@
+codeium.com
+auth.codeium.com
+releases.codeiumdata.com
