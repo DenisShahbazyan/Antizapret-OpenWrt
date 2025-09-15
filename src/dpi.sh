@@ -7,6 +7,7 @@ BACKUP_DIR="/root/backup"
 TMP_DIR="/root/antizapret"
 DPI_NORMAL_ALL_DOMAINS_FILE="$TMP_DIR/dpi_normal_all_domains.txt"
 DPI_QUIC_DROP_ALL_DOMAINS_FILE="$TMP_DIR/dpi_quic_drop_all_domains.txt"
+DPI_WA_TG_ALL_DOMAINS_FILE="$TMP_DIR/dpi_wa_tg_all_domains.txt"
 
 
 colored_echo() {
@@ -112,6 +113,11 @@ download_list_domains() {
         echo
     done | grep -v '^$' | sort | uniq > "$DPI_QUIC_DROP_ALL_DOMAINS_FILE"
 
+    for file in "$TMP_DIR/$FOLDER_NAME/domains/dpi/calls/"*.txt; do
+        cat "$file"
+        echo
+    done | grep -v '^$' | sort | uniq > "$DPI_WA_TG_ALL_DOMAINS_FILE"
+
     rm -rf "$TMP_DIR/$FOLDER_NAME"
     rm -f "$TMP_DIR/master.zip"
 }
@@ -211,6 +217,42 @@ create_config_file_youtubeUnblock() {
         colored_echo "Файл $DPI_NORMAL_ALL_DOMAINS_FILE не найден" red
         exit 1
     fi
+
+    {
+        echo ""
+    } >> "$output_file"
+
+    # Четвертая часть: блок для calls (константные строки до списка доменов)
+    {
+        echo "config section"
+        echo -e "\toption name 'calls'"
+        echo -e "\toption tls_enabled '0'"
+        echo -e "\toption all_domains '0'"
+    } >> "$output_file"
+
+    # Подставляем домены из файла dpi_wa_tg_all_domains.txt
+    # Подставляем домены из файла dpi_quic_drop_all_domains.txt
+    if [ -f "$DPI_WA_TG_ALL_DOMAINS_FILE" ]; then
+        while IFS= read -r domain || [ -n "$domain" ]; do
+            [ -z "$domain" ] && continue
+            echo -e "\tlist sni_domains '$domain'" >> "$output_file"
+        done < "$DPI_WA_TG_ALL_DOMAINS_FILE"
+    else
+        colored_echo "Файл $DPI_WA_TG_ALL_DOMAINS_FILE не найден" red
+        exit 1
+    fi
+
+    {
+        echo -e "\toption sni_detection 'parse'"
+        echo -e "\toption quic_drop '0'"
+        echo -e "\toption udp_mode 'fake'"
+        echo -e "\toption udp_faking_strategy 'none'"
+        echo -e "\toption udp_fake_seq_len '6'"
+        echo -e "\toption udp_fake_len '64'"
+        echo -e "\toption udp_filter_quic 'disabled'"
+        echo -e "\toption enabled '1'"
+        echo -e "\toption udp_stun_filter '1'"
+    } >> "$output_file"
 }
 
 
