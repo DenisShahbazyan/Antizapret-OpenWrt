@@ -18,6 +18,7 @@ discord.media
 discord.new
 discord.store
 discord.tools
+discord.status
 discordactivities.com
 discordapp.com
 discordapp.io
@@ -32,3 +33,5 @@ hammerandchisel.ssl.zendesk.com
 images-ext-1.discordapp.net
 media.discordapp.net
 watchanimeattheoffice.com
+stable.dl2.discordapp.net
+discordsez.com

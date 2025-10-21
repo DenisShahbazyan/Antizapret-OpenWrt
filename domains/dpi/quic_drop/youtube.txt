@@ -2,6 +2,8 @@
 7tv.app
 7tv.io
 ggpht.com
+yt3.ggpht.com
+yt4.ggpht.com
 googlevideo.com
 jnn-pa.googleapis.com
 wide-youtube.l.google.com
@@ -17,5 +19,9 @@ ytimg.com
 ytimg.l.google.com
 googleapis.com
 googleusercontent.com
+yt3.googleusercontent.com
 gstatic.com
 l.google.com
+betterttv.net
+ffzap.com
+frankerfacez.com
