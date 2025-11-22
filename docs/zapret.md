@@ -1,5 +1,7 @@
 # Настройка zapret v72+
 
+Работает ютуб, дискорд, звонки в telegram и whatsapp.
+
 1. Система -> Пакеты -> Обновить списки...
 2. В поиске пишем zapret и устанавливаем только `zapret` и `luci-app-zapret`
 
@@ -13,11 +15,17 @@
 ### Вкладка "NFQWS options"
 
 **NFQWS_PORTS_UDP**
+
 ```
 443,50000-50099
 ```
 
-**NFQWS_OPT**
+<details>
+<summary><b>NFQWS_OPT</b> (выбор конфига)</summary>
+
+<details>
+<summary><b>NFQWS_OPT</b> который работает на ростелекоме в МСК</summary>
+
 ```
 --filter-tcp=80 <HOSTLIST>
 --dpi-desync=fake,fakedsplit
@@ -52,9 +60,60 @@
 --dpi-desync=fake
 ```
 
+</details>
+
+<details>
+<summary><b>NFQWS_OPT</b> который работает на ростелекоме в (деревне)</summary>
+
+```
+--filter-tcp=80 <HOSTLIST>
+--dpi-desync=fake,fakedsplit
+--dpi-desync-autottl=2
+--dpi-desync-fooling=badsum
+--new
+--filter-tcp=443
+--hostlist=/opt/zapret/ipset/zapret-hosts-google.txt
+--ip-id=zero
+--dpi-desync=fake,fakeddisorder
+--dpi-desync-split-pos=10,midsld
+--dpi-desync-repeats=11
+--dpi-desync-fake-tls=/opt/zapret/files/fake/tls_clienthello_www_google_com.bin
+--dpi-desync-fake-tls-mod=rnd,dupsid,sni=fonts.google.com
+--dpi-desync-fake-tls=0x0F0F0F0F
+--dpi-desync-fake-tls-mod=none
+--dpi-desync-fakedsplit-pattern=/opt/zapret/files/fake/tls_clienthello_vk_com.bin
+--dpi-desync-split-seqovl=336
+--dpi-desync-split-seqovl-pattern=/opt/zapret/files/fake/tls_clienthello_gosuslugi_ru.bin
+--dpi-desync-fooling=badseq,badsum
+--dpi-desync-badseq-increment=0
+--new
+--filter-udp=443
+--hostlist=/opt/zapret/ipset/zapret-hosts-google.txt
+--dpi-desync=fake
+--dpi-desync-repeats=11
+--dpi-desync-fake-quic=/opt/zapret/files/fake/quic_initial_www_google_com.bin
+--new
+--filter-udp=443 <HOSTLIST_NOAUTO>
+--dpi-desync=fake
+--dpi-desync-repeats=11
+--new
+--filter-tcp=443 <HOSTLIST>
+--dpi-desync=multidisorder
+--dpi-desync-split-pos=1,sniext+1,host+1,midsld-2,midsld,midsld+2,endhost-1
+--new
+--filter-udp=50000-50099
+--filter-l7=discord,stun
+--dpi-desync=fake
+```
+
+</details>
+
+</details>
+
 ### Вкладка "custom.d"
 
 **custom.d script #50**
+
 ```
 # this custom script runs desync to all stun packets
 # NOTE: @ih requires nft 1.0.1+ and updated kernel version. it's confirmed to work on 5.15 (openwrt 23) and not work on 5.10 (openwrt 22)
