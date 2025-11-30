@@ -1,4 +1,4 @@
-# Настройка zapret v72+
+# Настройка zapret v72+ (YouTube, Discord, WA, TG)
 
 Работает ютуб, дискорд, звонки в telegram и whatsapp.
 
@@ -24,46 +24,7 @@
 <summary><b>NFQWS_OPT</b> (выбор конфига)</summary>
 
 <details>
-<summary><b>NFQWS_OPT</b> который работает на ростелекоме в МСК</summary>
-
-```
---filter-tcp=80 <HOSTLIST>
---dpi-desync=fake,fakedsplit
---dpi-desync-autottl=2
---dpi-desync-fooling=badsum
---new
---filter-tcp=443
---hostlist=/opt/zapret/ipset/zapret-hosts-google.txt
---ip-id=zero
---dpi-desync=fake,multidisorder
---dpi-desync-split-pos=1,midsld
---dpi-desync-repeats=11
---dpi-desync-fooling=badsum
---dpi-desync-fake-tls-mod=rnd,dupsid,sni=www.google.com
---new
---filter-udp=443
---hostlist=/opt/zapret/ipset/zapret-hosts-google.txt
---dpi-desync=fake
---dpi-desync-repeats=11
---dpi-desync-fake-quic=/opt/zapret/files/fake/quic_initial_www_google_com.bin
---new
---filter-udp=443 <HOSTLIST_NOAUTO>
---dpi-desync=fake
---dpi-desync-repeats=11
---new
---filter-tcp=443 <HOSTLIST>
---dpi-desync=multidisorder
---dpi-desync-split-pos=1,sniext+1,host+1,midsld-2,midsld,midsld+2,endhost-1
---new
---filter-udp=50000-50099
---filter-l7=discord,stun
---dpi-desync=fake
-```
-
-</details>
-
-<details>
-<summary><b>NFQWS_OPT</b> который работает на ростелекоме в (деревне)</summary>
+<summary><b>NFQWS_OPT</b> актуальный</summary>
 
 ```
 --filter-tcp=80 <HOSTLIST>
@@ -105,7 +66,44 @@
 --filter-l7=discord,stun
 --dpi-desync=fake
 ```
+</details>
 
+<details>
+<summary><b>NFQWS_OPT</b> (старый, скорее не рабочий)</summary>
+
+```
+--filter-tcp=80 <HOSTLIST>
+--dpi-desync=fake,fakedsplit
+--dpi-desync-autottl=2
+--dpi-desync-fooling=badsum
+--new
+--filter-tcp=443
+--hostlist=/opt/zapret/ipset/zapret-hosts-google.txt
+--ip-id=zero
+--dpi-desync=fake,multidisorder
+--dpi-desync-split-pos=1,midsld
+--dpi-desync-repeats=11
+--dpi-desync-fooling=badsum
+--dpi-desync-fake-tls-mod=rnd,dupsid,sni=www.google.com
+--new
+--filter-udp=443
+--hostlist=/opt/zapret/ipset/zapret-hosts-google.txt
+--dpi-desync=fake
+--dpi-desync-repeats=11
+--dpi-desync-fake-quic=/opt/zapret/files/fake/quic_initial_www_google_com.bin
+--new
+--filter-udp=443 <HOSTLIST_NOAUTO>
+--dpi-desync=fake
+--dpi-desync-repeats=11
+--new
+--filter-tcp=443 <HOSTLIST>
+--dpi-desync=multidisorder
+--dpi-desync-split-pos=1,sniext+1,host+1,midsld-2,midsld,midsld+2,endhost-1
+--new
+--filter-udp=50000-50099
+--filter-l7=discord,stun
+--dpi-desync=fake
+```
 </details>
 
 </details>
