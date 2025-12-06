@@ -20,11 +20,7 @@
 443,50000-50099,1024-65535
 ```
 
-<details>
-<summary><b>NFQWS_OPT</b> (выбор конфига)</summary>
-
-<details>
-<summary><b>NFQWS_OPT</b> актуальный</summary>
+**NFQWS_OPT**
 
 ```
 --filter-tcp=80 <HOSTLIST>
@@ -72,9 +68,6 @@
 --dpi-desync-any-protocol=1
 --dpi-desync-fake-unknown-udp=/opt/zapret/files/fake/quic_initial_www_google_com.bin
 ```
-</details>
-
-</details>
 
 ### Вкладка "custom.d"
 
@@ -113,3 +106,9 @@ zapret_custom_firewall_nft()
 	nft_fw_nfqws_post "$f" "$f" $QNUM_STUN4ALL
 }
 ```
+
+### Вкладка "Host list"
+
+User excluded hostname entries файл /opt/zapret/ipset/zapret-hosts-user-exclude.txt
+
+Добавить домены из файла [zapret-hosts-user-exclude.txt](./zapret-hosts-user-exclude.txt)
